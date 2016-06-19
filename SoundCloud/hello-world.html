@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <title>Hello SoundCloud</title>
+    <style type="text/css">
+        #content {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: xx-large;
+            font-weight: bold;
+            background-color: #E3F0FB;
+            border-radius: 4px;
+            padding: 50px;
+            text-align: center;
+        }
+    </style>
+
+    <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
+</head>
+
+<body>
+
+    <div id="content">
+
+        <div id="player"></div>
+
+
+    </div>
+    <script>
+        var SONG_URL;
+
+        window.onload = function () {
+            SC.initialize({
+                client_id: 'a104326de1ef22e7a71a211b2839b475'
+            });
+
+            // embed player
+            embdedPlayer();
+        }
+
+        function embdedPlayer() {
+            var player = document.getElementById("player");
+            /*
+                        SC.get('/tracks').then(function (tracks) {
+                            var random = Math.floor(Math.random() * 50);
+                            console.log(JSON.stringify(tracks[random]));
+                            //console.log(tracks[random].title);
+                            //console.log(tracks[random].permalink_url);
+                            SONG_URL = tracks[random].permalink_url;
+
+                            // embeding songs    
+                            SC.oEmbed(SONG_URL, {
+                                element: player
+                            });
+
+                        });
+                    */
+
+            SC.get('/tracks', {
+                q: 'counting stars', // query 
+                //genres: 'rocks',
+                downloadable: true
+            }).then(function (tracks) {
+                var random = Math.floor(Math.random() * 50);
+                console.log(tracks.length); // bound the track length
+
+                SC.oEmbed(tracks[0].permalink_url, {
+                    element: player
+                });
+
+            });
+
+        } // end method
+    </script>
+
+</body>
+
+</html>
